@@ -3,22 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculator</title>
     <style>
-      
+        .container{
+            width: fit-content;
+            margin: 0 auto;
+            height: 300px;
+            border: 1px solid black;
+            display: grid;
+        }
+        #f1{
+            width: 250px;
+            height: 40px;
+            margin: 10px;
+            text-align: right;
+        }
+        #r1, #r2, #r3, #r4, #r5{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .container input:hover{
+           color: skyblue;
+        }
     </style>
 </head>
 <body>
-    <img src="bulb off.jpg" id="p1" onclick="abc()" width="300px" height="300px">
-    <img src="Screenshot 2025-01-08 124034.png">
+    <div>
+        <h2><marquee behavior="" direction="left">Basic Calculator</marquee></h2>
+    </div>
+    <div class="container">
+        <div>
+            <input type="text" id="f1" placeholder="0"> <br>
+        </div>
+        <div id="r5">
+            <input type="button" value="AC" onclick="document.getElementById('f1').value = ''" >
+            <input type="button" value="&#8592;" onclick="document.getElementById('f1').value = document.getElementById('f1').value.slice(0, -1)" >
+            <input type="button" value="%" onclick="document.getElementById('f1').value += '%'">
+            <input type="button" value="&#8730;" onclick="document.getElementById('f1').value = Math.sqrt(document.getElementById('f1').value)">
+        </div>
+        <div id="r1">
+            <input type="button" value="1" onclick="document.getElementById('f1').value += '1'">
+            <input type="button" value="2" onclick="document.getElementById('f1').value += '2'">
+            <input type="button" value="3" onclick="document.getElementById('f1').value += '3'">
+            <input type="button" value="+" onclick="document.getElementById('f1').value += '+'">
+        </div>
+        <div id="r2">
+            <input type="button" value="4" onclick="document.getElementById('f1').value += '4'">
+            <input type="button" value="5" onclick="document.getElementById('f1').value += '5'">
+            <input type="button" value="6" onclick="document.getElementById('f1').value += '6'">
+            <input type="button" value="-" onclick="document.getElementById('f1').value += '-'">
+        </div>
+        <div id = "r3">
+            <input type="button" value="7" onclick="document.getElementById('f1').value += '7'">
+            <input type="button" value="8" onclick="document.getElementById('f1').value += '8'">
+            <input type="button" value="9" onclick="document.getElementById('f1').value += '9'">
+            <input type="button" value="*" onclick="document.getElementById('f1').value += '*'">
+        </div>
+        <div id="r4">
+            <input type="button" value="." onclick="document.getElementById('f1').value +='.'">
+            <input type="button" value="0" onclick="document.getElementById('f1').value += '0'">
+            <input type="button" value="=" onclick="calculateResult()">
+            <input type="button" value="/" onclick="document.getElementById('f1').value += '/'">
+        </div>
+    </div>
     <script>
-        function abc() {
-            var img = document.getElementById('p1');
-            if (img.getAttribute("src") == "bulb off.jpg") 
-            {
-                img.setAttribute('src',"bulb on.png");
-            } else {
-                img.setAttribute('src',"bulb off.jpg");
+        function calculateResult() {
+            try {
+                const input = document.getElementById('f1').value;
+                const sanitizedInput = input.replace(/(\d+)%/g, '($1/100)');
+                const result = Function('"use strict";return (' + sanitizedInput + ')')();
+                document.getElementById('f1').value = result;
+            } catch (e) {
+                document.getElementById('f1').value = 'Error';
             }
         }
     </script>
